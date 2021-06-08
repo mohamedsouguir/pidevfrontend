@@ -1,0 +1,255 @@
+<br><br><br><br>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+    <a class="navbar-brand" style="color:white;">Kindergarten Manager</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+         
+            <li class="badge badge-pill badge-warning">
+               <a (click)="onOpenModal(null, 'add')">Add Kindergarten <span class="sr-only">(current)</span></a>
+            </li>
+         
+       </ul>
+       
+<section class="search-sec">
+              <div class="container">
+                 <form (ngSubmit)="!searchForm.invalid && onSearch()" #searchForm="ngForm">
+                    <div class="row">
+                       <div class="col-lg-12">
+                          <div class="row">
+                           <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                               <!--<div class="input-group col-md-12" style="text-align: center"> -->
+                                   <input type="text"  [(ngModel)]="firstName" name="firstName"
+                                   class="form-control search-slt" placeholder="Entre project name">
+                                   
+                               </div>
+                          
+    </div></div>
+    </div></form></div></section>
+   </div>
+  </nav>&nbsp;&nbsp;&nbsp;&nbsp;
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <div class="container" id="main-container">
+  <div class="row">
+  <div class="col-lg-12">
+   <div class="main-box clearfix">
+ <div class="table-responsive"> 
+                    <table class="table user-list" >
+                     <thead>  
+                     <tr class="table-primary">
+                        <th><span> Id </span></th>
+                      <th><span> First Name </span></th>
+                     <th ><span> Last Name  </span></th>
+                      <th><span> Email </span></th>
+                     <th ><span> Phone </span></th>
+                     <th ><span> Employee Number</span> </th>
+                   <th ><span> Little About Me  </span></th>
+                  
+                     <th>&nbsp;</th>
+                  </tr>
+               </thead>
+               <tbody  *ngFor="let kindergarten of kindergartens" >
+                  <tr >
+                     <td>{{kindergarten?.id}}</td>
+                     <td>
+                        <img  class="img-thumbnail" class="border border-light" class="rounded"  *ngIf= "kindergarten?.image" src='data:image/png;base64,{{kindergarten?.image}}'>
+                        <a href="#" class="user-link"><h6>{{kindergarten?.firstName}}</h6></a>
+                        <span class="text-secondary">Kindergarten</span>
+                     </td>
+                     <td><h6>{{kindergarten?.lastName}}</h6></td>
+                     <td><h6>{{kindergarten?.email}}</h6></td>
+                     <td><h6>{{kindergarten?.phone}}</h6></td>
+                     <td><h6>{{kindergarten?.employeNumber}}</h6></td>
+                     <td><h6>{{kindergarten?.description}}</h6></td>
+                    
+                     <div class="card-body">
+                     <div class="template-demo">
+                        <div class="float-right btn-group btn-group-sm">
+                           <button (click)="onOpenModal(kindergarten,'edit')" type="button" class="btn btn-warning btn-rounded btn-fw">Edit</button> 
+                           <button (click)="onOpenModal(kindergarten,'delete')" type="button" class="btn btn-warning btn-rounded btn-fw">Delete</button>
+                           <button (click)="OnToProfil('Profilkindergarten')" type="button" class="btn btn-warning btn-rounded btn-fw">View</button>
+                        </div>
+                     </div>
+                     </div>
+                  </tr>
+               </tbody>
+            </table>
+           
+      <br>
+          </div>
+          
+        <!--  <div class="card-body">
+             <div class="float-right btn-group btn-group-sm">
+                <a (click)="onOpenModal(kindergarten,'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                <a (click)="onOpenModal(kindergarten,'delete')"class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+             </div>
+          </div>-->
+       </div>
+  
+    
+    
+ 
+  
+  <!-- Add Kindergarten Modal -->
+  <div class="modal fade" id="addKindergartenModal" tabindex="-1" role="dialog" aria-labelledby="addKindergartenModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addKindergartenModalLabel">Add Kindergarten</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddKindergarten(addForm)" >
+            <div class="form-group">
+               <label for="firstName">First Name</label>
+               <input type="text" [(ngModel)]="kindergarten.firstName"  name="firstName" class="form-control" id="firstName"  placeholder="firstName" #f="ngModel" required minlength="4">
+            </div>
+
+            <div class="alert alert-danger" *ngIf="f.invalid && f.touched">
+               <div *ngIf="f.errors.required">First Name is a required field</div>
+               <div *ngIf="f.errors.minlength">First Name  minlength is equal to 4</div>
+                 
+            </div>
+            <div class="form-group">
+               <label for="lastName">Last Name</label>
+               <input type="text" [(ngModel)]="kindergarten.lastName" name="lastName" class="form-control" id="lastName" placeholder="lastName"  #l="ngModel"required minlength="4">
+            </div>
+            <div class="alert alert-danger" *ngIf="l.invalid && l.touched">
+               <div *ngIf="l.errors.required">Last Name is a required field</div>
+               <div *ngIf="l.errors.minlength">Last Name  minlength is equal to 4</div>
+            </div>
+            <div class="form-group">
+               <label for="email">Email</label>
+               <input type="email" [(ngModel)]="kindergarten.email" name="email" class="form-control" id="email" placeholder="email" required>
+            </div>
+            <div class="form-group">
+               <label for="phone">Phone</label>
+               <input type="text" [(ngModel)]="kindergarten.phone" name="phone" class="form-control" id="phone"  #p="ngModel" placeholder="phone" required pattern="[0-9]+$">
+            </div>
+            <div class="alert alert-danger" *ngIf="p.invalid && p.touched">
+               <div *ngIf="p.errors.required">Phone is a required field</div>
+               <div *ngIf="p.errors.pattern">Please provide a valid phone</div>
+               </div>
+            <div class="form-group">
+               <label for="employeNumber">Employee Number</label>
+               <input type="text" [(ngModel)]="kindergarten.employeNumber" name="employeNumber" class="form-control" id="employeNumber" #e="ngModel" placeholder="employeNumber" required pattern="[1-9][0-9]">
+            </div>
+            <div class="alert alert-danger" *ngIf="e.invalid && e.touched">
+               <div *ngIf="e.errors.required">Employee Number is a required field</div>
+               <div *ngIf="e.errors.pattern">Please provide a valid Employee Number</div>
+               </div>
+            <div class="form-group">
+               <label for="description">Little About Me </label>
+               <input type="text" [(ngModel)]="kindergarten.description" name="description" class="form-control" id="description" #d="ngModel" placeholder="description" required maxlength="30">
+            </div>
+            <div class="alert alert-danger" *ngIf="d.invalid && d.touched">
+               <div *ngIf="d.errors.required">Description is a required field</div>
+               <div *ngIf="d.errors.maxlength">Please provide a valid Description</div>
+               </div>
+            <div class="form-group">
+               <label for="image">Image</label>
+               <input type="file" (change)="changefile($event)" class="form-control" id="image">
+            </div>
+            <img style='max-width:100%;' src='{{kindergarten?.imageurl}}'/>
+            
+              
+               <div class="modal-footer">
+                  <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                  <button type="submit" (click)="onOpenModal(null, 'add')" class="btn btn-primary" ><i class="fa fa-database"></i>Save changes</button>
+               </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateKindergartenModal" tabindex="-1" role="dialog" aria-labelledby="kindergartenEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateKindergartenModalLabel">Edit Kindergarten </h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #editForm="ngForm" >
+               
+                <div class="form-group">
+                   <label for="firstName">First Name :</label>
+                   <input  class="form-control" type="text" ngModel="{{editKindergarten?.firstName}}" name="firstName"  placeholder="Enter Kindergarten's firstName" name="firstName" >
+                
+                  </div>
+                <div class="form-group">
+                   <label for="lastName">Last Name :</label>
+                   <input  type="text" ngModel="{{editKindergarten?.lastName}}" placeholder="lastName" name="lastName" class="form-control" id="lastName" >
+                </div>
+                
+                <div class="form-group">
+                   <label for="email">Email</label>
+                   <input type="email" ngModel="{{editKindergarten?.email}}" placeholder="email" name="email" class="form-control" id="email" >
+                </div>
+                <div class="form-group">
+                   <label for="phone">Phone</label>
+                   <input type="number"  ngModel="{{editKindergarten?.phone}}" placeholder="Phone" name="phone" class="form-control" id="phone"  >
+                </div>
+                <div class="form-group">
+                   <label for="employeNumber">Employee Number</label>
+                   <input type="number"  ngModel="{{editKindergarten?.employeNumber}}" placeholder="employeNumber" name="employeNumber" class="form-control" id="employeNumber" >
+                </div>
+                <div class="form-group">
+                  <label for="description">Little About Me </label>
+                  <input type="text" ngModel="{{editKindergarten?.description}}" placeholder="description" name="description" class="form-control" id="description" >
+               </div>
+               <!--<div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="file" (change)="changefile($event)" class="form-control" id="image">
+               </div>
+               <img style='max-width:100%;' src='{{editKindergarten?.imageurl}}'/>-->
+               
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                   <button (click)="onUpdateKindergarten(editForm.value)" class="btn btn-primary" ><i class="fas fa-edit"></i>update</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div> 
+  
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteKindergartenModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Delete Employee</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete kindergarten {{deleteKindergarten?.firstName}}? </p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button  (click)="onDeleteKindergarten(deleteKindergarten?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  </div>
+  
+  <!-- Notification for no Kindergarten -->
+  <div  *ngIf="kindergartens?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">NO KINDERGARTEN!</h4>
+    <p>No Kindergartens were found.</p>
+  </div>
+  </div>
+  
+  </div>
